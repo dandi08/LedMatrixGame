@@ -252,6 +252,9 @@ void loop() {
     case gameEndedState:
       gameEndedFunc();
       break;
+    case highScoreState:
+      highScoreFunc();
+      break;
   };
 }
 
@@ -309,7 +312,7 @@ void updateMatrix(byte matrix[][8]) {
   }
 }
 
-void updateLeaderboard() {
+bool updateLeaderboard() {
   for (int i = firstLeaderboardIndex; i < lastLeaderboardIndex; i++) {
     byte leaderboardMinutes, leaderboardSeconds, minutesAux, secondsAux;
     char firstLetter, secondLetter, thirdLetter, fourthLetter;
@@ -339,9 +342,10 @@ void updateLeaderboard() {
       EEPROM.update(leaderboardPositions[i][eepromNameIndex3], chooseNameMsg[nameRow][thirdLetterIndex]);
       EEPROM.update(leaderboardPositions[i][eepromNameIndex4], chooseNameMsg[nameRow][fourthLetterIndex]);
 
-      return;
+      return true;
     }
   }
+  return false;
 }
 
 void resetLeaderboard() {
@@ -667,6 +671,14 @@ void gameEndedFunc() {
   }
 }
 
+void highScoreFunc() {
+  displayOptions(highScoreMsg, noOptions, highScoreTopOption, highScoreBottomOption);
+  if (buttonTrigger) {
+    gameState = gameEndedState;
+    buttonTrigger = false;
+  }
+}
+
 bool checkGameOver() {
   for (int i = index; i < enemiesSize; i++)
     if (enemiesPos[i][indexXAxis] == playerPos[indexXAxis] && enemiesPos[i][indexYAxis] == playerPos[indexYAxis])
@@ -683,15 +695,20 @@ bool checkGameOver() {
 void dodgeLevel() {
   if (checkGameOver()) {
     tone(buzzerPin, buzzerGameEndedTone, buzzerGameEndedDuration);
-    gameState = gameEndedState;
+    
     minutes = (millis() - gameStartTimer) / secondToMillis /minuteToSeconds;
     seconds = (millis() - gameStartTimer) / secondToMillis % minuteToSeconds;
-    updateLeaderboard();
+    if (updateLeaderboard())
+      gameState = highScoreState;
+    else
+      gameState = gameEndedState;
     buttonTrigger = false;
     mainMenuTopOption = defaultTopOptionPosition;
     mainMenuBottomOption = defaultBottomOptionPosition;
     return;
   }
+
+  displayOptions(chooseNameMsg, noOptions, inGameTopOption, inGameBottomOption);
 
   if (millis() - increaseBulletSpeedTimer > increaseBulletSpeedTime) {
     bulletSpeed -= bulletSpeedIncrement;

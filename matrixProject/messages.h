@@ -26,6 +26,7 @@ const byte matrixBrightnessState = 10;
 const byte howToPlayState = 11;
 const byte creditsState = 12;
 const byte gameEndedState = 13;
+const byte highScoreState = 14;
 
 const char greetingMsgPart1[] = {'W', 'e', 'l', 'c', 'o', 'm', 'e', ' ', 't', 'o', '\0'};
 const byte greetingMsgPart1StartRow = 0;
@@ -55,6 +56,7 @@ byte mainMenuBottomOption = 1;
 char chooseNameMsg[][17] = {
   {'C', 'h', 'o', 'o', 's', 'e', ' ', 'y', 'o', 'u', 'r', ' ', 'n', 'a', 'm', 'e', '\0'},
   {' ', ' ', ' ', ' ', ' ' ,'"', asciiLetterStartPos, asciiLetterStartPos, asciiLetterStartPos, asciiLetterStartPos, '"', ' ', ' ', ' ', ' ', ' ', '\0'},
+  {' ', ' ', ' ', 'P', 'l', 'a', 'y', 'e' ,'r', ':', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
 };
 
 const byte firstLetterPosition = 6;
@@ -67,6 +69,8 @@ const byte nameRow = 1;
 byte selectedLetter = 6;
 byte chooseNameTopOption = 0;
 byte chooseNameBottomOption = 1;
+byte inGameTopOption = 2;
+byte inGameBottomOption = 1;
 
 
 char leaderboardMsg[][17] = {
@@ -170,3 +174,11 @@ char gameEndedMsg[][17] = {
 
 byte gameEndedTopOption = 0;
 byte gameEndedBottomOption = 1;
+
+char highScoreMsg[][17] = {
+  {'Y', 'o', 'u', ' ', 'a', 'r', 'e', ' ', 'o', 'n', ' ', 't', 'h', 'e', ' ', ' ', '\0'},
+  {'l', 'e', 'a', 'd', 'e', 'r', 'b', 'o', 'a', 'r', 'd', '!', '!', '!', ' ', ' ', '\0'},
+};
+
+byte highScoreTopOption = 0;
+byte highScoreBottomOption = 1;
