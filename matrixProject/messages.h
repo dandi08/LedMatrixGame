@@ -4,7 +4,6 @@ const byte topOptionRow = 0;
 const byte bottomOptionRow = 1;
 const byte optionIndex = 0;
 const byte optionHighlightIndex = 15;
-const char optionHighlight[] = {'<', '\0'};
 const byte noOptions = 3;
 const byte asciiLetterStartPos = 65;
 const byte asciiLetterEndPos = 90;
@@ -27,6 +26,8 @@ const byte howToPlayState = 11;
 const byte creditsState = 12;
 const byte gameEndedState = 13;
 const byte highScoreState = 14;
+const byte gameDifficultyState = 15;
+const byte soundSettingsState = 16;
 
 const char greetingMsgPart1[] = {'W', 'e', 'l', 'c', 'o', 'm', 'e', ' ', 't', 'o', '\0'};
 const byte greetingMsgPart1StartRow = 0;
@@ -56,7 +57,6 @@ byte mainMenuBottomOption = 1;
 char chooseNameMsg[][17] = {
   {'C', 'h', 'o', 'o', 's', 'e', ' ', 'y', 'o', 'u', 'r', ' ', 'n', 'a', 'm', 'e', '\0'},
   {' ', ' ', ' ', ' ', ' ' ,'"', asciiLetterStartPos, asciiLetterStartPos, asciiLetterStartPos, asciiLetterStartPos, '"', ' ', ' ', ' ', ' ', ' ', '\0'},
-  {' ', ' ', ' ', 'P', 'l', 'a', 'y', 'e' ,'r', ':', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
 };
 
 const byte firstLetterPosition = 6;
@@ -69,7 +69,7 @@ const byte nameRow = 1;
 byte selectedLetter = 6;
 byte chooseNameTopOption = 0;
 byte chooseNameBottomOption = 1;
-byte inGameTopOption = 2;
+byte inGameTopOption = 0;
 byte inGameBottomOption = 1;
 
 
@@ -78,14 +78,16 @@ char leaderboardMsg[][17] = {
   {'1', '.', ' ', ' ', ':', ' ', ' ', '-', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
   {'2', '.', ' ', ' ', ':', ' ', ' ', '-', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
   {'3', '.', ' ', ' ', ':', ' ', ' ', '-', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
+  {'4', '.', ' ', ' ', ':', ' ', ' ', '-', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
+  {'5', '.', ' ', ' ', ':', ' ', ' ', '-', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
 };
 
-const byte leaderboardNumberOfOptions = 4;
+const byte leaderboardNumberOfOptions = 6;
 byte leaderboardSelectedOption = 1;
 byte leaderboardTopOption = 0;
 byte leaderboardBottomOption = 1;
 const byte firstLeaderboardIndex = 1;
-const byte lastLeaderboardIndex = 4;
+const byte lastLeaderboardIndex = 6;
 const byte minutesIndex1 = 2;
 const byte minutesIndex2 = 3;
 const byte secondsIndex1 = 5;
@@ -96,15 +98,17 @@ const byte nameIndex3 = 10;
 const byte nameIndex4 = 11;
 
 const char settingsMsg[][17] = {
+  {'G', 'a', 'm', 'e', ' ', 'd', 'i', 'f', 'f', 'i', 'c', 'u', 'l', 't', 'y', ' ', '\0'},
   {'R', 'e', 's', 'e', 't', ' ', 's', 'c', 'o', 'r', 'e', 's', ' ', ' ', ' ', ' ', '\0'},
+  {'S', 'o', 'u', 'n', 'd', ' ', 's', 'e', 't', 't', 'i', 'n', 'g', 's', ' ', ' ', '\0'},
   {'L', 'C', 'D', ' ', 'c', 'o', 'n', 't', 'r', 'a', 's', 't', ' ', ' ', ' ', ' ', '\0'},
   {'L', 'C', 'D', ' ', 'b', 'r', 'i', 'g', 'h', 't', 'n', 'e', 's', 's', ' ', ' ', '\0'},
   {'M', 'a', 't', ' ', 'b', 'r', 'i', 'g', 'h', 't', 'n', 'e', 's', 's', ' ', ' ', '\0'},
   {'B', 'a', 'c', 'k', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
 };
 
-const byte settingsNumberOfOptions = 5;
-const byte settingsRedirect[] = {resetLeaderboardState, lcdContrastState, lcdBrightnessState, matrixBrightnessState, mainMenuState};
+const byte settingsNumberOfOptions = 7;
+const byte settingsRedirect[] = {gameDifficultyState, resetLeaderboardState, soundSettingsState, lcdContrastState, lcdBrightnessState, matrixBrightnessState, mainMenuState};
 byte settingsSelectedOption = 0;
 byte settingsTopOption = 0;
 byte settingsBottomOption = 1;
@@ -118,6 +122,16 @@ const byte resetLeaderboardNumberOfOptions = 2;
 byte resetLeaderboardSelectedOption = 0;
 byte resetLeaderboardTopOption = 0;
 byte resetLeaderboardBottomOption = 1;
+
+const char soundSettingsMsg[][17] = {
+  {'O', 'n', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
+  {'O', 'f', 'f', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
+};
+
+const byte soundSettingsNumberOfOptions = 2;
+byte soundSettingsSelectedOption = 0;
+byte soundSettingsTopOption = 0;
+byte soundSettingsBottomOption = 1;
 
 char matrixBrightnessMsg[][17] = {
   {'M', 'a', 't', ' ', 'b', 'r', 'i', 'g', 'h', 't', 'n', 'e', 's', 's', ' ', ' ', '\0'},
@@ -152,10 +166,14 @@ byte lcdContrastTopOption = 0;
 byte lcdContrastBottomOption = 1;
 
 const char howToPlayMsg[][17] = {
-  {'D', 'o', 'd', 'g', 'e', ' ', 't', 'h', 'e', ' ', 'e', 'n', 'e', 'm', 'y', ' ', '\0'},
-  {'M', 'o', 'v', 'e', '-', 'j', 'o', 'y', 's', 't', 'i', 'c', 'k', ' ', ' ', ' ', '\0'},
+  {'Y', 'o', 'u', ' ', 'g', 'o', 't', ' ', '3', ' ', 'h', 'e', 'a', 'r', 't', 's', '\0'},
+  {'D', 'o', 'd', 'g', 'e', ' ', ' ', 'e', 'n', 'e', 'm', 'i', 'e', 's', ' ', ' ', '\0'},
+  {'M', 'o', 'v', 'i', 'n', 'g', ' ', 'w', 'i', 't', 'h', ' ', 't', 'h', 'e', ' ', '\0'},
+  {'j', 'o', 'y', 's', 't', 'i', 'c', 'k', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
 };
 
+byte howToPlaySelectedOption = 0;
+byte howToPlayNumberOfOptions = 4;
 byte howToPlayTopOption = 0;
 byte howToPlayBottomOption = 1;
 
@@ -182,3 +200,17 @@ char highScoreMsg[][17] = {
 
 byte highScoreTopOption = 0;
 byte highScoreBottomOption = 1;
+
+char gameDifficultyMsg[16] =
+  {'G', 'a', 'm', 'e', ' ', 'd', 'i', 'f', 'f', 'i', 'c', 'u', 'l', 't', 'y', '\0'};
+
+char gameDifficultyOptions[2][5] = {
+  {'E', 'a', 's', 'y', '\0'},
+  {'H', 'a', 'r', 'd', '\0'},
+};
+
+const byte gameDifficultyLowPos = 5;
+const byte gameDifficultyHighPos = 7;
+byte gameDifficultyValue = 6;
+byte gameDifficultyTopOption = 0;
+byte gameDifficultyBottomOption = 1;
