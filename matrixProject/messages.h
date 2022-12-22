@@ -204,10 +204,11 @@ byte highScoreBottomOption = 1;
 char gameDifficultyMsg[16] =
   {'G', 'a', 'm', 'e', ' ', 'd', 'i', 'f', 'f', 'i', 'c', 'u', 'l', 't', 'y', '\0'};
 
-char gameDifficultyOptions[2][5] = {
-  {'E', 'a', 's', 'y', '\0'},
-  {'H', 'a', 'r', 'd', '\0'},
-};
+char gameDifficultyEasy[] =
+  {'E', 'a', 's', 'y', '\0'};
+
+char gameDifficultyHard[] =
+  {'H', 'a', 'r', 'd', '\0'};
 
 const byte gameDifficultyLowPos = 5;
 const byte gameDifficultyHighPos = 7;

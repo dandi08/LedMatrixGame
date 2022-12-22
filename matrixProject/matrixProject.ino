@@ -680,13 +680,13 @@ void gameDifficultyFunc() {
     lcd.clear();
     gameDifficultyWasInitialized = true;
   }
-  
+
   updateMatrix(questionMarkSymbol);
   lcdDisplayMessage(index, gameDifficultyTopOption, gameDifficultyMsg);
   if (gameDifficultyValue == 6)
-    lcdDisplayMessage(index, gameDifficultyBottomOption, gameDifficultyOptions[0]);
+    lcdDisplayMessage(index, gameDifficultyBottomOption, gameDifficultyEasy);
   else
-    lcdDisplayMessage(index, gameDifficultyBottomOption, gameDifficultyOptions[1]);
+    lcdDisplayMessage(index, gameDifficultyBottomOption, gameDifficultyHard);
   moveJoystickAxis(indexYAxis, false);
   if (buttonTrigger) {
     gameDifficultyWasInitialized = false;
