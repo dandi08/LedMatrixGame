@@ -1,5 +1,5 @@
 #include "bulletClass.h"
-
+//implementation for bullet class functions
 Bullet::Bullet() {}
 
 Bullet::Bullet(byte xPos, byte yPos, byte xVelocity, byte yVelocity, int bulletMoveDelay) {

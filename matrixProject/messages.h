@@ -11,7 +11,7 @@ const byte defaultSelectedOptionValue = 0;
 const byte defaultTopOptionPosition = 0;
 const byte defaultBottomOptionPosition = 1;
 
-//game states:
+//all game states:
 const byte greetingState = 1;
 const byte mainMenuState = 2;
 const byte chooseNameState = 3;
@@ -40,6 +40,7 @@ const byte greetingMsgPart2StartIndex = 5;
 const byte upCursorPosition = 0;
 const byte downCursorPosition = 1;
 
+//every matrix contains the options or messages displayed for every menu state
 const char mainMenuMsg[][17] = {
   {'S', 't', 'a', 'r', 't', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'},
   {'L', 'e', 'a', 'd', 'e', 'r', 'b', 'o', 'a', 'r', 'd', ' ', ' ', ' ', ' ', ' ', '\0'},
@@ -51,6 +52,7 @@ const char mainMenuMsg[][17] = {
 const byte mainMenuNumberOfOptions = 5;
 const byte mainMenuRedirect[] = {chooseNameState, leaderboardState, settingsState, howToPlayState, creditsState};
 byte mainMenuSelectedOption = 0;
+//there are two options displayed on the lcd at a time
 byte mainMenuTopOption = 0;
 byte mainMenuBottomOption = 1;
 

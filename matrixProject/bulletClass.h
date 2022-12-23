@@ -4,7 +4,8 @@
 
 const int minuteToSeconds = 60;
 const int secondToMillis = 1000;
-
+//declaration of bullet class
+//bulletMoveDelay saves after how much time bullet need to move and bulletTimer saves last time the bullet moved
 class Bullet {
   private:
     byte xPos;

@@ -1,3 +1,4 @@
+//custom characters for lcd
 byte arrowCharacter[8] = {
 	B00000,
 	B00100,

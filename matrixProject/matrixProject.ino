@@ -5,6 +5,7 @@
 #include "LiquidCrystal.h"
 #include "EEPROM.h"
 
+//lcd pins declaration
 const byte rs = A4;
 const byte en = 8;
 const byte d4 = 7;
@@ -238,6 +239,7 @@ void setup() {
   gameStartTimer = millis();
 }
 
+//main loop checks game state and runs the corresponding function
 void loop() {
   switch (gameState) {
     case greetingState:
