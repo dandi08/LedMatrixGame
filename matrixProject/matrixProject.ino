@@ -314,6 +314,7 @@ void buttonInterrupt() {
   }
 }
 
+//resetting matrix with enemies and player default positions
 void resetGameMatrix() {
   for (int i = index; i < maxNumberOfBullets; i++)
     bulletsExist[i] = false;
@@ -357,6 +358,7 @@ void updateMatrix(byte matrix[][8]) {
   }
 }
 
+//checks if a new score should be in the leaderboard
 bool updateLeaderboard() {
   for (int i = firstLeaderboardIndex; i < lastLeaderboardIndex; i++) {
     byte leaderboardMinutes, leaderboardSeconds, minutesAux, secondsAux;
@@ -394,6 +396,7 @@ bool updateLeaderboard() {
   return false;
 }
 
+//resets all highscores in EEPROM
 void resetLeaderboard() {
   byte resetLeaderboardDefaultScoreValue = 0;
   char resetLeaderboardDefaultNameValue = '-';
@@ -407,6 +410,7 @@ void resetLeaderboard() {
   }
 }
 
+//loads leaderboard in order to display it on the lcd
 void loadLeaderboard() {
   for (int i = firstLeaderboardIndex; i <= lastLeaderboardIndex; i++) {
     byte minutes, seconds;
@@ -428,6 +432,7 @@ void loadLeaderboard() {
   }
 }
 
+//function called to check if joystick was moved on either direction
 void moveJoystickAxis(byte axis, bool inGame) {
   int joystickAxisInput = analogRead(joystickAxisPinsArray[axis]);
   if (joystickAxisInput < minNeutralJoystickValue || joystickAxisInput > maxNeutralJoystickValue) {
@@ -435,6 +440,7 @@ void moveJoystickAxis(byte axis, bool inGame) {
       joystickAxisTimerStart[axis] = millis();
       joystickAxisTimerWasStarted[axis] = true;
     }
+
     if (millis() - joystickAxisTimerStart[axis] > debounceDelay && (!joystickAxisMoved[axis] || inGame)) {
       joystickAxisMoved[axis] = true;
       if (gameState != inGameState && soundOn)
@@ -494,6 +500,7 @@ void lcdDisplaySpecialCharacter(byte index, byte row, byte characterIndex) {
   lcd.write(characterIndex);
 }
 
+//displays the options and chooses which arrow character should be displayed
 void displayOptions(char msg[][17], byte selectedOption, byte topOption, byte bottomOption, byte numberOfOptions, bool multipleOptions) {
   lcdDisplayMessage(optionIndex, topOptionRow, msg[topOption]);
   if (selectedOption == upCursorPosition) {
@@ -520,6 +527,7 @@ void displayOptions(char msg[][17], byte selectedOption, byte topOption, byte bo
   }
 }
 
+//changes selected option
 void selectOptions(byte numberOfOptions, byte& selectedOption, byte& topOption, byte& bottomOption, int joystickAxisInput) {
   if (joystickAxisInput > maxNeutralJoystickValue) {
     if (selectedOption == upCursorPosition) {
@@ -538,6 +546,7 @@ void selectOptions(byte numberOfOptions, byte& selectedOption, byte& topOption, 
   }
 }
 
+//chooses letter when setting name
 void changeLetterPosition(int joystickAxisInput) {
   if (joystickAxisInput < minNeutralJoystickValue) {
     if (selectedLetter == lastLetterPosition)
@@ -633,6 +642,8 @@ void chooseNameFunc() {
   }
 }
 
+const byte defaultNumberOfHearts = 3;
+
 void gameInitializations() {
   resetGameMatrix();
   lcd.clear();
@@ -645,7 +656,7 @@ void gameInitializations() {
   numberOfBulletsTimer = millis();
   numberOfBullets = startNumberOfBullets;
   gameOver = false;
-  currentNumberOfHearts = 3;
+  currentNumberOfHearts = defaultNumberOfHearts;
   isInvulnerable = false;
 }
 
